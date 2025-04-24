@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTarotCardById, getTarotCards } from '@/data/tarot-cards';
 import CardDetails from '@/components/CardDetails';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import Script from 'next/script';
 
 export async function generateMetadata({
 	params,
@@ -13,17 +15,24 @@ export async function generateMetadata({
 	if (!card) {
 		return {
 			title: 'Карта не найдена',
+			robots: {
+				index: false,
+				follow: true,
+			},
 		};
 	}
 
+	const description = `Узнайте значение карты Таро ${card.name} (${
+		card.original_name
+	}). ${card.meanings[0]?.description?.slice(0, 160)}...`;
+
 	return {
-		title: `${card.name} - Значение карты Таро`,
-		description: `Узнайте значение карты Таро ${card.name} (${
-			card.original_name
-		}). ${card.meanings[0]?.description?.slice(0, 160)}...`,
+		title: `${card.name} - Значение карты Таро | ${card.arcan}`,
+		description,
+		keywords: `${card.name}, ${card.original_name}, ${card.arcan}, значение карты таро, толкование, гадание`,
 		openGraph: {
 			title: `${card.name} - Значение карты Таро`,
-			description: `Узнайте значение карты Таро ${card.name} (${card.original_name})`,
+			description,
 			images: [
 				{
 					url: card.imageUrl,
@@ -32,6 +41,15 @@ export async function generateMetadata({
 					alt: card.name,
 				},
 			],
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title: `${card.name} - Значение карты Таро`,
+			description,
+			images: [card.imageUrl],
+		},
+		alternates: {
+			canonical: `/cards/${card.id}`,
 		},
 	};
 }
@@ -43,14 +61,53 @@ export async function generateStaticParams() {
 	}));
 }
 
-type Params = Promise<{ id: string }>;
+type Params = { id: string };
+
 export default async function Page({ params }: { params: Params }) {
-	const { id } = await params;
+	const { id } = params;
 	const card = getTarotCardById(id);
 
 	if (!card) {
 		notFound();
 	}
 
-	return <CardDetails card={card} />;
+	const breadcrumbs = [
+		{ label: 'Главная', href: '/' },
+		{ label: 'Карты Таро', href: '/cards' },
+		{ label: card.name, href: `/cards/${card.id}` },
+	];
+
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@type': 'Article',
+		headline: `${card.name} - Значение карты Таро`,
+		description: card.meanings[0]?.description,
+		image: card.imageUrl,
+		author: {
+			'@type': 'Organization',
+			name: 'Таро',
+		},
+		publisher: {
+			'@type': 'Organization',
+			name: 'Таро',
+			logo: {
+				'@type': 'ImageObject',
+				url: 'https://tarot.ru/logo.png',
+			},
+		},
+		datePublished: new Date().toISOString(),
+		dateModified: new Date().toISOString(),
+	};
+
+	return (
+		<>
+			<Script
+				id='structured-data'
+				type='application/ld+json'
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+			/>
+			<Breadcrumbs items={breadcrumbs} />
+			<CardDetails card={card} />
+		</>
+	);
 }
