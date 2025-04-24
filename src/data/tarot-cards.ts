@@ -19,6 +19,7 @@ export function getTarotCards(): TarotCard[] {
 		imageUrl: `/cards/${(item.card?.original_name || '')
 			.toLowerCase()
 			.replace(/\s+/g, '-')}.jpg`,
+		relatedCards: [],
 	}));
 
 	return cachedCards;
