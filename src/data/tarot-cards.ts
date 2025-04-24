@@ -4,7 +4,7 @@ import cardsData from './cards.json';
 // Cache the transformed data
 let cachedCards: TarotCard[] | null = null;
 
-export const getTarotCards = (): TarotCard[] => {
+export function getTarotCards(): TarotCard[] {
 	if (cachedCards) {
 		return cachedCards;
 	}
@@ -22,8 +22,8 @@ export const getTarotCards = (): TarotCard[] => {
 	}));
 
 	return cachedCards;
-};
+}
 
-export const getTarotCardById = (id: string): TarotCard | undefined => {
+export function getTarotCardById(id: string): TarotCard | undefined {
 	return getTarotCards().find((card) => card.id === id);
-};
+}

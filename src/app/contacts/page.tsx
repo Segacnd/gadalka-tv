@@ -5,12 +5,12 @@ export default function ContactsPage() {
 				<div className='mx-auto max-w-lg md:grid md:max-w-none md:grid-cols-2 md:gap-8'>
 					<div>
 						<h2 className='text-2xl font-bold text-gray-900 sm:text-3xl sm:tracking-tight'>
-							Contact Us
+							Свяжитесь с нами
 						</h2>
 						<div className='mt-3'>
 							<p className='text-lg text-gray-500'>
-								Have questions about tarot or want to schedule a reading? We're
-								here to help!
+								Есть вопросы по Таро или хотите записаться на консультацию? Мы
+								всегда готовы помочь!
 							</p>
 						</div>
 						<div className='mt-9'>
@@ -31,8 +31,8 @@ export default function ContactsPage() {
 									</svg>
 								</div>
 								<div className='ml-3 text-base text-gray-500'>
-									<p>+1 (555) 123-4567</p>
-									<p className='mt-1'>Mon-Fri 8am to 6pm PST</p>
+									<p>+7 (XXX) XXX-XX-XX</p>
+									<p className='mt-1'>Пн-Пт с 9:00 до 18:00</p>
 								</div>
 							</div>
 							<div className='mt-6 flex'>
@@ -52,7 +52,7 @@ export default function ContactsPage() {
 									</svg>
 								</div>
 								<div className='ml-3 text-base text-gray-500'>
-									<p>support@tarotcards.com</p>
+									<p>info@tarot.ru</p>
 								</div>
 							</div>
 						</div>
@@ -64,7 +64,7 @@ export default function ContactsPage() {
 									htmlFor='name'
 									className='block text-sm font-medium text-gray-700'
 								>
-									Name
+									Имя
 								</label>
 								<div className='mt-1'>
 									<input
@@ -98,7 +98,7 @@ export default function ContactsPage() {
 									htmlFor='message'
 									className='block text-sm font-medium text-gray-700'
 								>
-									Message
+									Сообщение
 								</label>
 								<div className='mt-1'>
 									<textarea
@@ -114,7 +114,7 @@ export default function ContactsPage() {
 									type='submit'
 									className='inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
 								>
-									Send Message
+									Отправить сообщение
 								</button>
 							</div>
 						</form>

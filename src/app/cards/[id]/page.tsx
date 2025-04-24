@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getTarotCardById } from '@/data/tarot-cards';
+import { getTarotCardById, getTarotCards } from '@/data/tarot-cards';
 import CardDetails from '@/components/CardDetails';
 
 export async function generateMetadata({
@@ -43,8 +43,10 @@ export async function generateStaticParams() {
 	}));
 }
 
-export default async function CardPage({ params }: { params: { id: string } }) {
-	const card = getTarotCardById(params.id);
+type Params = Promise<{ id: string }>;
+export default async function Page({ params }: { params: Params }) {
+	const { id } = await params;
+	const card = getTarotCardById(id);
 
 	if (!card) {
 		notFound();
