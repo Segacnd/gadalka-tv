@@ -3,15 +3,11 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin', 'cyrillic'] });
 
 export const metadata: Metadata = {
-	title: {
-		template: '%s | Таро - Ваш гид по картам Таро',
-		default: 'Таро - Ваш гид по картам Таро',
-	},
-	description:
-		'Исследуйте мир карт Таро, гаданий и духовного руководства. Узнайте значения всех карт Таро, их толкования и советы по гаданию.',
+	title: 'Таро - Ваш гид по картам Таро',
+	description: 'Исследуйте значения и толкования карт Таро',
 	keywords:
 		'таро, карты таро, гадание, толкование карт, духовное руководство, значение карт, гадание на таро',
 	openGraph: {
@@ -57,116 +53,71 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang='ru'>
-			<body className={inter.className}>
-				<header className='bg-white shadow-sm'>
-					<nav className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-						<div className='flex justify-between h-16'>
-							<div className='flex'>
-								<div className='flex-shrink-0 flex items-center'>
-									<Link href='/' className='text-xl font-bold text-gray-900'>
+		<html lang='ru' className={inter.className}>
+			<body>
+				<div className='min-h-screen bg-black text-white'>
+					<header className='border-b border-gray-800'>
+						<nav className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+							<div className='flex h-16 justify-between items-center'>
+								<div className='flex'>
+									<Link
+										href='/'
+										className='text-xl font-bold text-white hover:text-gray-300'
+									>
 										Таро
 									</Link>
 								</div>
-								<div className='hidden sm:ml-6 sm:flex sm:space-x-8'>
-									<Link
-										href='/'
-										className='border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
-									>
-										Главная
-									</Link>
+								<div className='flex space-x-8'>
 									<Link
 										href='/cards'
-										className='border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+										className='text-gray-400 hover:text-white'
 									>
 										Карты
 									</Link>
 									<Link
-										href='/blog'
-										className='border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
-									>
-										Блог
-									</Link>
-									<Link
 										href='/readings'
-										className='border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+										className='text-gray-400 hover:text-white'
 									>
 										Гадания
 									</Link>
+									<Link href='/faq' className='text-gray-400 hover:text-white'>
+										FAQ
+									</Link>
 									<Link
 										href='/contacts'
-										className='border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+										className='text-gray-400 hover:text-white'
 									>
 										Контакты
 									</Link>
 								</div>
 							</div>
-						</div>
-					</nav>
-				</header>
-				<main className='min-h-screen bg-gray-50'>{children}</main>
-				<footer className='bg-white'>
-					<div className='max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8'>
-						<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-							<div>
-								<h3 className='text-sm font-semibold text-gray-900'>О нас</h3>
-								<p className='mt-4 text-sm text-gray-500'>
-									Ваш надежный гид в мире Таро. Мы помогаем людям понять
-									значение карт и найти ответы на важные вопросы.
+						</nav>
+					</header>
+					<main>{children}</main>
+					<footer className='border-t border-gray-800'>
+						<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+							<div className='flex justify-between items-center'>
+								<p className='text-gray-400'>
+									© 2024 Таро. Все права защищены.
 								</p>
-							</div>
-							<div>
-								<h3 className='text-sm font-semibold text-gray-900'>
-									Навигация
-								</h3>
-								<ul className='mt-4 space-y-4'>
-									<li>
-										<Link
-											href='/cards'
-											className='text-sm text-gray-500 hover:text-gray-900'
-										>
-											Карты Таро
-										</Link>
-									</li>
-									<li>
-										<Link
-											href='/readings'
-											className='text-sm text-gray-500 hover:text-gray-900'
-										>
-											Гадания
-										</Link>
-									</li>
-									<li>
-										<Link
-											href='/blog'
-											className='text-sm text-gray-500 hover:text-gray-900'
-										>
-											Блог
-										</Link>
-									</li>
-								</ul>
-							</div>
-							<div>
-								<h3 className='text-sm font-semibold text-gray-900'>
-									Контакты
-								</h3>
-								<ul className='mt-4 space-y-4'>
-									<li className='text-sm text-gray-500'>
-										Email: info@tarot.ru
-									</li>
-									<li className='text-sm text-gray-500'>
-										Телефон: +7 (XXX) XXX-XX-XX
-									</li>
-								</ul>
+								<div className='flex space-x-6'>
+									<Link
+										href='/privacy'
+										className='text-gray-400 hover:text-white'
+									>
+										Политика конфиденциальности
+									</Link>
+									<Link
+										href='/terms'
+										className='text-gray-400 hover:text-white'
+									>
+										Условия использования
+									</Link>
+								</div>
 							</div>
 						</div>
-						<div className='mt-8 border-t border-gray-200 pt-8'>
-							<p className='text-center text-gray-500 text-sm'>
-								© {new Date().getFullYear()} Таро. Все права защищены.
-							</p>
-						</div>
-					</div>
-				</footer>
+					</footer>
+				</div>
 			</body>
 		</html>
 	);

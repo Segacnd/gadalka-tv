@@ -1,126 +1,124 @@
+import { Metadata } from 'next';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import Script from 'next/script';
+
+export const metadata: Metadata = {
+	title: 'Контакты - Свяжитесь с нами',
+	description:
+		'Свяжитесь с нами для получения дополнительной информации о картах Таро, гаданиях и толкованиях.',
+	keywords: 'контакты таро, связь с тарологом, вопросы по таро, обратная связь',
+};
+
+const breadcrumbs = [
+	{ label: 'Главная', href: '/' },
+	{ label: 'Контакты', href: '/contacts' },
+];
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'ContactPage',
+	name: 'Контакты',
+	description: 'Свяжитесь с нами для получения дополнительной информации',
+	contactPoint: {
+		'@type': 'ContactPoint',
+		contactType: 'customer service',
+		email: 'info@tarot.ru',
+		telephone: '+7 (XXX) XXX-XX-XX',
+	},
+};
+
 export default function ContactsPage() {
 	return (
-		<div className='bg-white'>
-			<div className='mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8'>
-				<div className='mx-auto max-w-lg md:grid md:max-w-none md:grid-cols-2 md:gap-8'>
-					<div>
-						<h2 className='text-2xl font-bold text-gray-900 sm:text-3xl sm:tracking-tight'>
-							Свяжитесь с нами
+		<>
+			<Script
+				id='structured-data'
+				type='application/ld+json'
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+			/>
+			<Breadcrumbs items={breadcrumbs} />
+			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+				<h1 className='text-3xl font-bold text-white mb-8'>Контакты</h1>
+				<p className='text-gray-400 mb-8'>
+					Свяжитесь с нами для получения дополнительной информации о картах
+					Таро, гаданиях и толкованиях.
+				</p>
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+					<div className='bg-gray-900 p-6 rounded-lg border border-gray-800'>
+						<h2 className='text-xl font-semibold text-white mb-4'>
+							Контактная информация
 						</h2>
-						<div className='mt-3'>
-							<p className='text-lg text-gray-500'>
-								Есть вопросы по Таро или хотите записаться на консультацию? Мы
-								всегда готовы помочь!
-							</p>
-						</div>
-						<div className='mt-9'>
-							<div className='mt-6 flex'>
-								<div className='flex-shrink-0'>
-									<svg
-										className='h-6 w-6 text-gray-400'
-										fill='none'
-										viewBox='0 0 24 24'
-										strokeWidth='1.5'
-										stroke='currentColor'
-									>
-										<path
-											strokeLinecap='round'
-											strokeLinejoin='round'
-											d='M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z'
-										/>
-									</svg>
-								</div>
-								<div className='ml-3 text-base text-gray-500'>
-									<p>+7 (XXX) XXX-XX-XX</p>
-									<p className='mt-1'>Пн-Пт с 9:00 до 18:00</p>
-								</div>
+						<div className='space-y-4'>
+							<div>
+								<h3 className='text-gray-400'>Email</h3>
+								<p className='text-white'>info@tarot.ru</p>
 							</div>
-							<div className='mt-6 flex'>
-								<div className='flex-shrink-0'>
-									<svg
-										className='h-6 w-6 text-gray-400'
-										fill='none'
-										viewBox='0 0 24 24'
-										strokeWidth='1.5'
-										stroke='currentColor'
-									>
-										<path
-											strokeLinecap='round'
-											strokeLinejoin='round'
-											d='M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75'
-										/>
-									</svg>
-								</div>
-								<div className='ml-3 text-base text-gray-500'>
-									<p>info@tarot.ru</p>
-								</div>
+							<div>
+								<h3 className='text-gray-400'>Телефон</h3>
+								<p className='text-white'>+7 (XXX) XXX-XX-XX</p>
+							</div>
+							<div>
+								<h3 className='text-gray-400'>Адрес</h3>
+								<p className='text-white'>г. Москва, ул. Примерная, д. 123</p>
 							</div>
 						</div>
 					</div>
-					<div className='mt-12 sm:mt-16 md:mt-0'>
-						<form action='#' method='POST' className='grid grid-cols-1 gap-y-6'>
+					<div className='bg-gray-900 p-6 rounded-lg border border-gray-800'>
+						<h2 className='text-xl font-semibold text-white mb-4'>
+							Напишите нам
+						</h2>
+						<form className='space-y-4'>
 							<div>
 								<label
 									htmlFor='name'
-									className='block text-sm font-medium text-gray-700'
+									className='block text-sm font-medium text-gray-400'
 								>
 									Имя
 								</label>
-								<div className='mt-1'>
-									<input
-										type='text'
-										name='name'
-										id='name'
-										autoComplete='name'
-										className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-									/>
-								</div>
+								<input
+									type='text'
+									id='name'
+									name='name'
+									className='mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-white focus:ring-white'
+								/>
 							</div>
 							<div>
 								<label
 									htmlFor='email'
-									className='block text-sm font-medium text-gray-700'
+									className='block text-sm font-medium text-gray-400'
 								>
 									Email
 								</label>
-								<div className='mt-1'>
-									<input
-										type='email'
-										name='email'
-										id='email'
-										autoComplete='email'
-										className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-									/>
-								</div>
+								<input
+									type='email'
+									id='email'
+									name='email'
+									className='mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-white focus:ring-white'
+								/>
 							</div>
 							<div>
 								<label
 									htmlFor='message'
-									className='block text-sm font-medium text-gray-700'
+									className='block text-sm font-medium text-gray-400'
 								>
 									Сообщение
 								</label>
-								<div className='mt-1'>
-									<textarea
-										id='message'
-										name='message'
-										rows={4}
-										className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
-									/>
-								</div>
+								<textarea
+									id='message'
+									name='message'
+									rows={4}
+									className='mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-white focus:ring-white'
+								></textarea>
 							</div>
-							<div>
-								<button
-									type='submit'
-									className='inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-								>
-									Отправить сообщение
-								</button>
-							</div>
+							<button
+								type='submit'
+								className='bg-white text-black px-4 py-2 rounded-md hover:bg-gray-200'
+							>
+								Отправить
+							</button>
 						</form>
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }

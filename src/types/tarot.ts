@@ -11,4 +11,10 @@ export interface TarotCard {
 		reverse_description: string;
 	}[];
 	imageUrl: string;
+	relatedCards: {
+		id: string;
+		name: string;
+		image: string;
+		arcan: string;
+	}[];
 }

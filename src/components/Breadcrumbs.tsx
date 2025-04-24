@@ -11,39 +11,35 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
 	return (
-		<nav className='flex mb-8' aria-label='Breadcrumb'>
-			<ol className='inline-flex items-center space-x-1 md:space-x-3'>
+		<nav
+			className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'
+			aria-label='Breadcrumb'
+		>
+			<ol className='flex items-center space-x-4 py-4'>
 				{items.map((item, index) => (
-					<li key={item.href} className='inline-flex items-center'>
-						{index > 0 && (
-							<svg
-								className='w-3 h-3 text-gray-400 mx-1'
-								aria-hidden='true'
-								xmlns='http://www.w3.org/2000/svg'
-								fill='none'
-								viewBox='0 0 6 10'
-							>
-								<path
-									stroke='currentColor'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth='2'
-									d='m1 9 4-4-4-4'
-								/>
-							</svg>
-						)}
-						{index === items.length - 1 ? (
-							<span className='text-sm font-medium text-gray-500'>
-								{item.label}
-							</span>
-						) : (
+					<li key={item.href}>
+						<div className='flex items-center'>
+							{index > 0 && (
+								<svg
+									className='h-5 w-5 flex-shrink-0 text-gray-400'
+									fill='currentColor'
+									viewBox='0 0 20 20'
+									aria-hidden='true'
+								>
+									<path d='M5.555 17.776l8-16 .894.448-8 16-.894-.448z' />
+								</svg>
+							)}
 							<Link
 								href={item.href}
-								className='text-sm font-medium text-gray-700 hover:text-gray-900'
+								className={`ml-4 text-sm font-medium ${
+									index === items.length - 1
+										? 'text-white'
+										: 'text-gray-400 hover:text-gray-300'
+								}`}
 							>
 								{item.label}
 							</Link>
-						)}
+						</div>
 					</li>
 				))}
 			</ol>

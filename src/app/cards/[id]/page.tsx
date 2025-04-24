@@ -4,6 +4,7 @@ import { getTarotCardById, getTarotCards } from '@/data/tarot-cards';
 import CardDetails from '@/components/CardDetails';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import Script from 'next/script';
+import { Category } from '@/components/CardDetails';
 
 export async function generateMetadata({
 	params,
@@ -62,9 +63,17 @@ export async function generateStaticParams() {
 }
 
 type Params = { id: string };
+type SearchParams = { tab?: Category };
 
-export default async function Page({ params }: { params: Params }) {
+export default async function Page({
+	params,
+	searchParams,
+}: {
+	params: Params;
+	searchParams: SearchParams;
+}) {
 	const { id } = params;
+	const { tab = 'general' } = searchParams;
 	const card = getTarotCardById(id);
 
 	if (!card) {
@@ -107,7 +116,7 @@ export default async function Page({ params }: { params: Params }) {
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
 			/>
 			<Breadcrumbs items={breadcrumbs} />
-			<CardDetails card={card} />
+			<CardDetails card={card} activeTab={tab} />
 		</>
 	);
 }
