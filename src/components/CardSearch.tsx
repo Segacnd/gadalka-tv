@@ -29,11 +29,12 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 							href={`/cards/${card.id}`}
 							className='group block'
 							prefetch={false}
+							aria-label={`Подробнее о карте ${card.name}`}
 						>
 							<div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-900'>
 								<Image
 									src='/senkai-yami-4.jpg'
-									alt={card.name}
+									alt='Изображение карты таро'
 									width={300}
 									height={400}
 									className='h-full w-full object-cover object-center group-hover:opacity-75'
@@ -41,7 +42,7 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 									loading='lazy'
 								/>
 							</div>
-							<h3 className='mt-2 text-sm text-white'>{card.name}</h3>
+							<h2 className='mt-2 text-sm text-white'>{card.name}</h2>
 							<p className='mt-1 text-sm text-gray-400'>{card.arcan}</p>
 						</Link>
 					))}

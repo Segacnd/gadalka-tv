@@ -65,12 +65,19 @@ export default function CardsPage({
 			<Breadcrumbs items={breadcrumbs} />
 			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
 				<h1 className='text-3xl font-bold text-white mb-8'>Карты Таро</h1>
-				<p className='text-gray-400 mb-3'>
-					Исследуйте полный список карт Таро с подробными значениями и
-					толкованиями. Узнайте значение каждой карты в прямом и перевернутом
-					положении.
-				</p>
-				<CardSearch cards={cards} searchParams={searchParams} />
+				<div className='mb-3'>
+					<p className='text-gray-400'>
+						Исследуйте полный список карт Таро с подробными значениями и
+						толкованиями. Узнайте значение каждой карты в прямом и перевернутом
+						положении.
+					</p>
+				</div>
+				<section aria-labelledby='card-search-heading'>
+					<h2 id='card-search-heading' className='sr-only'>
+						Поиск карт Таро
+					</h2>
+					<CardSearch cards={cards} searchParams={searchParams} />
+				</section>
 			</div>
 		</>
 	);

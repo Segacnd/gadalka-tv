@@ -50,7 +50,7 @@ export async function generateMetadata({
 			images: [card.imageUrl],
 		},
 		alternates: {
-			canonical: `/cards/${card.id}`,
+			canonical: `https://gadalka-tv.vercel.app/cards/${card.id}`,
 		},
 	};
 }
