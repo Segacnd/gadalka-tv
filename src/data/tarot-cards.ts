@@ -1,7 +1,6 @@
 import { TarotCard } from '@/types/tarot';
 import cardsData from './cards.json';
 
-// Cache the transformed data
 let cachedCards: TarotCard[] | null = null;
 
 export function getTarotCards(): TarotCard[] {

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gadalka-tv.vercel.app/sitemap.xml 

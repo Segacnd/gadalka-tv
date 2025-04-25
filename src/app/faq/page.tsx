@@ -68,7 +68,7 @@ export default function FAQPage() {
 				<div className='space-y-6'>
 					{faqItems.map((item, index) => (
 						<div key={index} className='bg-white p-6 rounded-lg shadow-sm'>
-							<h2 className='text-xl font-semibold mb-4'>{item.question}</h2>
+							<h2 className='text-xl text-black font-semibold mb-4'>{item.question}</h2>
 							<p className='text-gray-600'>{item.answer}</p>
 						</div>
 					))}
