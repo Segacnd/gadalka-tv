@@ -22,31 +22,66 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 					<SearchInput defaultValue={searchTerm} />
 				</div>
 
-				<div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
-					{filteredCards.map((card) => (
-						<Link
-							key={card.id}
-							href={`/cards/${card.id}`}
-							className='group block'
-							prefetch={false}
-							aria-label={`Подробнее о карте ${card.name}`}
-						>
-							<div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-900'>
-								<Image
-									src='/senkai-yami-4.jpg'
-									alt='Изображение карты таро'
-									width={300}
-									height={400}
-									className='h-full w-full object-cover object-center group-hover:opacity-75'
-									quality={75}
-									loading='lazy'
+				{searchTerm && filteredCards.length === 0 ? (
+					<div className='text-center py-12'>
+						<div className='inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-800 mb-6'>
+							<svg
+								xmlns='http://www.w3.org/2000/svg'
+								fill='none'
+								viewBox='0 0 24 24'
+								strokeWidth={1.5}
+								stroke='currentColor'
+								className='w-8 h-8 text-gray-400'
+							>
+								<path
+									strokeLinecap='round'
+									strokeLinejoin='round'
+									d='m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z'
 								/>
-							</div>
-							<h2 className='mt-2 text-sm text-white'>{card.name}</h2>
-							<p className='mt-1 text-sm text-gray-400'>{card.arcan}</p>
+							</svg>
+						</div>
+						<h2 className='text-xl font-medium text-white mb-2'>
+							Карты не найдены
+						</h2>
+						<p className='text-gray-300 mb-6 max-w-md mx-auto'>
+							По запросу &quot;<span className='italic'>{searchTerm}</span>
+							&quot; ничего не найдено. Попробуйте другой поисковый запрос или
+							просмотрите все карты.
+						</p>
+						<Link
+							href='/cards'
+							className='inline-flex items-center justify-center rounded-md bg-gradient-to-r from-gray-800 to-black px-4 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-white/10 hover:from-gray-700 hover:to-gray-900'
+						>
+							Показать все карты
 						</Link>
-					))}
-				</div>
+					</div>
+				) : (
+					<div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+						{filteredCards.map((card) => (
+							<Link
+								key={card.id}
+								href={`/cards/${card.id}`}
+								className='group block'
+								prefetch={false}
+								aria-label={`Подробнее о карте ${card.name}`}
+							>
+								<div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-900'>
+									<Image
+										src='/senkai-yami-4.jpg'
+										alt='Изображение карты таро'
+										width={300}
+										height={400}
+										className='h-full w-full object-cover object-center group-hover:opacity-75'
+										quality={75}
+										loading='lazy'
+									/>
+								</div>
+								<h2 className='mt-2 text-sm text-white'>{card.name}</h2>
+								<p className='mt-1 text-sm text-gray-400'>{card.arcan}</p>
+							</Link>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	);
