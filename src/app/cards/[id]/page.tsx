@@ -23,23 +23,26 @@ export async function generateMetadata({
 		};
 	}
 
-	const description = `Узнайте значение карты Таро ${card.name} (${
-		card.original_name
-	}). ${card.meanings[0]?.description?.slice(0, 160)}...`;
+	const firstMeaning = card.meanings[0] || {};
+	const description = firstMeaning.description
+		? `${firstMeaning.description.slice(0, 160)}...`
+		: `Узнайте значение карты Таро ${card.name} (${card.original_name}).`;
 
 	return {
-		title: `${card.name} - Значение карты Таро | ${card.arcan}`,
+		title: `${card.name} (${card.original_name}) - Значение карты Таро | ${card.arcan}`,
 		description,
-		keywords: `${card.name}, ${card.original_name}, ${card.arcan}, значение карты таро, толкование, гадание`,
+		keywords: `${card.name}, ${card.original_name}, ${card.arcan}, значение карты таро, толкование, гадание, символизм карты`,
 		openGraph: {
+			type: 'article',
 			title: `${card.name} - Значение карты Таро`,
 			description,
+			url: `https://gadalka-tv.vercel.app/cards/${card.id}`,
 			images: [
 				{
 					url: card.imageUrl,
 					width: 300,
 					height: 400,
-					alt: card.name,
+					alt: `Карта Таро ${card.name}`,
 				},
 			],
 		},
@@ -64,6 +67,9 @@ export async function generateStaticParams() {
 
 type Params = { id: string };
 type SearchParams = { tab?: Category };
+
+// Настройка кэширования страницы (ISR)
+export const revalidate = 3600; // Обновлять каждый час
 
 export default async function Page({
 	params,
@@ -90,30 +96,60 @@ export default async function Page({
 		'@context': 'https://schema.org',
 		'@type': 'Article',
 		headline: `${card.name} - Значение карты Таро`,
-		description: card.meanings[0]?.description,
+		description: card.meanings[0]?.description || '',
 		image: card.imageUrl,
 		author: {
 			'@type': 'Organization',
 			name: 'Таро',
+			url: 'https://gadalka-tv.vercel.app',
 		},
 		publisher: {
 			'@type': 'Organization',
 			name: 'Таро',
 			logo: {
 				'@type': 'ImageObject',
-				url: 'https://tarot.ru/logo.png',
+				url: 'https://gadalka-tv.vercel.app/logo.png',
 			},
 		},
-		datePublished: new Date().toISOString(),
-		dateModified: new Date().toISOString(),
+		datePublished: new Date().toISOString().split('T')[0],
+		dateModified: new Date().toISOString().split('T')[0],
+		mainEntityOfPage: {
+			'@type': 'WebPage',
+			'@id': `https://gadalka-tv.vercel.app/cards/${card.id}`,
+		},
+		about: {
+			'@type': 'Thing',
+			name: card.name,
+			description: card.meanings[0]?.description || '',
+			sameAs: `https://en.wikipedia.org/wiki/${card.original_name.replace(
+				/\s+/g,
+				'_'
+			)}_tarot_card`,
+		},
+	};
+
+	const breadcrumbsSchema = {
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: breadcrumbs.map((item, index) => ({
+			'@type': 'ListItem',
+			position: index + 1,
+			name: item.label,
+			item: `https://gadalka-tv.vercel.app${item.href}`,
+		})),
 	};
 
 	return (
 		<>
 			<Script
-				id='structured-data'
+				id='card-structured-data'
 				type='application/ld+json'
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+			/>
+			<Script
+				id='breadcrumbs-structured-data'
+				type='application/ld+json'
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
 			/>
 			<Breadcrumbs items={breadcrumbs} />
 			<CardDetails card={card} activeTab={tab} />

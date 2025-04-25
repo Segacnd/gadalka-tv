@@ -1,10 +1,41 @@
 import Link from 'next/link';
+import CardOfTheDay from '@/components/CardOfTheDay';
+import { Metadata } from 'next';
+
+// Улучшаем метаданные главной страницы
+export const metadata: Metadata = {
+	title:
+		'Таро - Погрузитесь в мир древней мудрости карт | Гадания и толкования',
+	description:
+		'Исследуйте значения карт Таро, получите ежедневное предсказание с картой дня и раскройте тайны будущего через различные расклады.',
+	keywords:
+		'таро, карты таро, гадание на таро, карта дня, толкование карт, предсказания, оракул, арканы, гадание онлайн',
+	openGraph: {
+		type: 'website',
+		title: 'Таро - Мир древней мудрости',
+		description:
+			'Исследуйте значения карт Таро и получите ежедневное предсказание',
+		url: 'https://gadalka-tv.vercel.app',
+		siteName: 'Таро',
+		images: [
+			{
+				url: 'https://gadalka-tv.vercel.app/images/og-image.jpg',
+				width: 1200,
+				height: 630,
+				alt: 'Таро - Мир древней мудрости',
+			},
+		],
+	},
+};
+
+// Настройка кэширования страницы (ISR)
+export const revalidate = 86400; // Обновлять каждые 24 часа
 
 export default function Home() {
 	return (
 		<main className='relative min-h-screen'>
-			<div className='relative mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8'>
-				<div className='mx-auto max-w-2xl text-center'>
+			<div className='relative min-h-screen mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 flex flex-col items-center justify-center'>
+				<div className='mx-auto max-w-2xl text-center -translate-y-[10%]'>
 					<h1 className='bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-6xl'>
 						Раскройте тайны Таро
 					</h1>
@@ -22,6 +53,11 @@ export default function Home() {
 						</Link>
 					</div>
 				</div>
+			</div>
+
+			{/* Card of the Day */}
+			<div className='mx-auto max-w-7xl px-6 mb-16'>
+				<CardOfTheDay />
 			</div>
 
 			{/* Features grid */}
