@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const inter = Inter({ subsets: ['latin', 'cyrillic'] });
 
@@ -55,7 +56,23 @@ export default function RootLayout({
 	return (
 		<html lang='ru' className={inter.className}>
 			<body>
-				<div className='min-h-screen bg-black text-white'>
+				<div className='min-h-screen relative bg-black text-white isolate'>
+					<div className='fixed inset-0 -z-10'>
+						<div className='relative h-full w-full'>
+							<Image
+								src='/tarot-bg.webp'
+								alt='Mystical tarot background'
+								fill
+								priority
+								quality={90}
+								sizes='100vw'
+								placeholder='blur'
+								blurDataURL='data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvBUAFEH8GEP7/mREir/4PwP1PWwA='
+								className='object-cover object-center'
+							/>
+							<div className='absolute inset-0 bg-black/60' />
+						</div>
+					</div>
 					<header className='border-b border-gray-800'>
 						<nav className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
 							<div className='flex h-16 justify-between items-center'>

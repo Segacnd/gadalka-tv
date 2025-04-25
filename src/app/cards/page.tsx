@@ -48,7 +48,11 @@ const structuredData = {
 	},
 };
 
-export default function CardsPage() {
+export default function CardsPage({
+	searchParams,
+}: {
+	searchParams: { q?: string };
+}) {
 	const cards = getTarotCards();
 
 	return (
@@ -61,12 +65,12 @@ export default function CardsPage() {
 			<Breadcrumbs items={breadcrumbs} />
 			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
 				<h1 className='text-3xl font-bold text-white mb-8'>Карты Таро</h1>
-				<p className='text-gray-400 mb-8'>
+				<p className='text-gray-400 mb-3'>
 					Исследуйте полный список карт Таро с подробными значениями и
 					толкованиями. Узнайте значение каждой карты в прямом и перевернутом
 					положении.
 				</p>
-				<CardSearch cards={cards} />
+				<CardSearch cards={cards} searchParams={searchParams} />
 			</div>
 		</>
 	);

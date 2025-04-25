@@ -55,7 +55,7 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 			<div className='lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8'>
 				<div className='flex justify-center'>
 					<Image
-						src={card.imageUrl}
+						src='/senkai-yami-4.jpg'
 						alt={card.name}
 						width={300}
 						height={400}
@@ -63,7 +63,6 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 						priority
 						quality={85}
 						placeholder='blur'
-						blurDataURL='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcYa91W4L1oPE6zDcaMkS1Ukr8ecWwyZHuBgwHOM92HRWsHgg6S9ctdN2wkmNqLqXVrPwK9o1RPjDrhWtGpMW5B0yjF/9k='
 					/>
 				</div>
 
@@ -140,7 +139,7 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 								>
 									<div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-900'>
 										<Image
-											src={`/images/cards/${relatedCard.id}.jpg`}
+											src={`/senkai-yami-4.jpg`}
 											alt={relatedCard.name}
 											width={200}
 											height={300}

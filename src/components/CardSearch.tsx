@@ -1,16 +1,15 @@
-'use client';
-
-import { useState } from 'react';
 import { TarotCard } from '@/types/tarot';
 import Link from 'next/link';
 import Image from 'next/image';
+import SearchInput from './SearchInput';
 
 interface CardSearchProps {
 	cards: TarotCard[];
+	searchParams: { q?: string };
 }
 
-export default function CardSearch({ cards }: CardSearchProps) {
-	const [searchTerm, setSearchTerm] = useState('');
+export default function CardSearch({ cards, searchParams }: CardSearchProps) {
+	const searchTerm = searchParams.q || '';
 
 	const filteredCards = cards.filter((card) =>
 		card.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -18,15 +17,9 @@ export default function CardSearch({ cards }: CardSearchProps) {
 
 	return (
 		<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-			<div className='mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32'>
-				<div className='mb-8'>
-					<input
-						type='text'
-						placeholder='Поиск карт...'
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-						className='w-full rounded-md border border-gray-800 bg-gray-900 px-4 py-2 text-white placeholder-gray-400 focus:border-white focus:outline-none focus:ring-1 focus:ring-white'
-					/>
+			<div className='mx-auto max-w-2xl py-16 sm:py-8 lg:max-w-none lg:py-10'>
+				<div className='mb-6'>
+					<SearchInput defaultValue={searchTerm} />
 				</div>
 
 				<div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
@@ -39,7 +32,7 @@ export default function CardSearch({ cards }: CardSearchProps) {
 						>
 							<div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-900'>
 								<Image
-									src={card.imageUrl}
+									src='/senkai-yami-4.jpg'
 									alt={card.name}
 									width={300}
 									height={400}
