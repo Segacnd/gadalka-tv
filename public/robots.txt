@@ -1,3 +1,6 @@
+# Гадалка ТВ - Карты Таро и гадания
 User-agent: *
 Allow: /
+Disallow: /api/
+
 Sitemap: https://gadalka-tv.vercel.app/sitemap.xml 
