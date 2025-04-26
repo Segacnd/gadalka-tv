@@ -85,7 +85,7 @@ export const revalidate = 3600; // Обновлять каждый час
 export default function CardsPage({
 	searchParams,
 }: {
-	searchParams: { q?: string };
+	searchParams: { q?: string; tab?: string };
 }) {
 	const cards = getTarotCards();
 

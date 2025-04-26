@@ -24,10 +24,19 @@ export default function SearchInput({ defaultValue }: SearchInputProps) {
 
 		// Update URL without full page refresh
 		const params = new URLSearchParams(searchParams.toString());
+
+		// Сохраняем текущую вкладку если она есть
+		const currentTab = searchParams.get('tab');
+
 		if (newValue) {
 			params.set('q', newValue);
 		} else {
 			params.delete('q');
+		}
+
+		// Добавляем tab обратно, чтобы сохранить текущую вкладку при поиске
+		if (currentTab) {
+			params.set('tab', currentTab);
 		}
 
 		// Use setTimeout to prevent excessive updates

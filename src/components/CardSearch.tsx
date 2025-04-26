@@ -5,15 +5,45 @@ import SearchInput from './SearchInput';
 
 interface CardSearchProps {
 	cards: TarotCard[];
-	searchParams: { q?: string };
+	searchParams: { q?: string; tab?: string };
 }
+
+type TabType = 'all' | 'major' | 'minor' | 'court';
 
 export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 	const searchTerm = searchParams.q || '';
+	const activeTab = (searchParams.tab as TabType) || 'all';
 
-	const filteredCards = cards.filter((card) =>
+	// Функция для фильтрации карт по типу аркана
+	const filterCardsByType = (
+		cards: TarotCard[],
+		type: TabType
+	): TarotCard[] => {
+		if (type === 'all') return cards;
+		if (type === 'major')
+			return cards.filter((card) => card.arcan.includes('Старший'));
+		if (type === 'minor')
+			return cards.filter((card) => card.arcan.includes('Младший'));
+		if (type === 'court') {
+			// Придворные карты имеют особое значение поля arcan: "Придворный Аркан"
+			return cards.filter((card) => card.arcan.includes('Придворный'));
+		}
+		return cards;
+	};
+
+	// Сначала фильтруем по поисковому запросу
+	const searchFiltered = cards.filter((card) =>
 		card.name.toLowerCase().includes(searchTerm.toLowerCase())
 	);
+
+	// Затем фильтруем по типу аркана
+	const filteredCards = filterCardsByType(searchFiltered, activeTab);
+
+	// Определяем количество карт для отображения на каждой вкладке
+	const totalCards = searchFiltered.length;
+	const majorCards = filterCardsByType(searchFiltered, 'major').length;
+	const minorCards = filterCardsByType(searchFiltered, 'minor').length;
+	const courtCards = filterCardsByType(searchFiltered, 'court').length;
 
 	return (
 		<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -22,7 +52,53 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 					<SearchInput defaultValue={searchTerm} />
 				</div>
 
-				{searchTerm && filteredCards.length === 0 ? (
+				{/* Табы для фильтрации карт */}
+				<div className='border-b border-gray-700 mb-6'>
+					<nav className='-mb-px flex space-x-6 overflow-x-auto'>
+						<Link
+							href={`/cards?q=${searchTerm}&tab=all`}
+							className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+								activeTab === 'all'
+									? 'border-white text-white'
+									: 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-400'
+							}`}
+						>
+							Все карты ({totalCards})
+						</Link>
+						<Link
+							href={`/cards?q=${searchTerm}&tab=major`}
+							className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+								activeTab === 'major'
+									? 'border-white text-white'
+									: 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-400'
+							}`}
+						>
+							Старшие арканы ({majorCards})
+						</Link>
+						<Link
+							href={`/cards?q=${searchTerm}&tab=minor`}
+							className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+								activeTab === 'minor'
+									? 'border-white text-white'
+									: 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-400'
+							}`}
+						>
+							Младшие арканы ({minorCards})
+						</Link>
+						<Link
+							href={`/cards?q=${searchTerm}&tab=court`}
+							className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+								activeTab === 'court'
+									? 'border-white text-white'
+									: 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-400'
+							}`}
+						>
+							Придворные карты ({courtCards})
+						</Link>
+					</nav>
+				</div>
+
+				{filteredCards.length === 0 ? (
 					<div className='text-center py-12'>
 						<div className='inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-800 mb-6'>
 							<svg
@@ -44,9 +120,16 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 							Карты не найдены
 						</h2>
 						<p className='text-gray-300 mb-6 max-w-md mx-auto'>
-							По запросу &quot;<span className='italic'>{searchTerm}</span>
-							&quot; ничего не найдено. Попробуйте другой поисковый запрос или
-							просмотрите все карты.
+							{searchTerm ? (
+								<>
+									По запросу &quot;<span className='italic'>{searchTerm}</span>
+									&quot; ничего не найдено.
+								</>
+							) : (
+								<>В этой категории нет карт.</>
+							)}{' '}
+							Попробуйте другой поисковый запрос или выберите другой тип
+							арканов.
 						</p>
 						<Link
 							href='/cards'
@@ -76,7 +159,14 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 										loading='lazy'
 									/>
 								</div>
-								<h2 className='mt-2 text-sm text-white'>{card.name}</h2>
+								<h2 className='mt-2 text-sm text-white'>
+									{card.name}
+									{card.standardName && card.name !== card.standardName && (
+										<span className='block text-xs text-gray-400 mt-1'>
+											{card.standardName}
+										</span>
+									)}
+								</h2>
 								<p className='mt-1 text-sm text-gray-400'>{card.arcan}</p>
 							</Link>
 						))}

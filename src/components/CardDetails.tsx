@@ -43,12 +43,6 @@ const getMeaningByCategory = (category: Category, card: TarotCard) => {
 	});
 };
 
-const relatedCards = [
-	{ id: '1', name: 'Маг', arcan: 'Старший Аркан' },
-	{ id: '2', name: 'Верховная Жрица', arcan: 'Старший Аркан' },
-	{ id: '3', name: 'Императрица', arcan: 'Старший Аркан' },
-];
-
 export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 	return (
 		<div className='mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8'>
@@ -73,6 +67,9 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 						{card.name}
 					</h1>
 					<p className='mt-3 text-lg text-gray-200'>{card.original_name}</p>
+					{card.standardName && card.name !== card.standardName && (
+						<p className='mt-1 text-lg text-gray-300'>{card.standardName}</p>
+					)}
 					<p className='mt-1 text-sm text-gray-300'>{card.arcan}</p>
 
 					<div className='mt-10'>
@@ -133,44 +130,46 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 						</div>
 					</div>
 
-					<section aria-labelledby='related-cards-heading' className='mt-12'>
-						<h2
-							id='related-cards-heading'
-							className='text-lg font-medium text-white'
-						>
-							Похожие карты
-						</h2>
-						<div className='mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-							{relatedCards.map((relatedCard) => (
-								<Link
-									key={relatedCard.id}
-									href={`/cards/${relatedCard.id}`}
-									className='group block'
-									prefetch={false}
-									aria-label={`Подробнее о карте ${relatedCard.name}`}
-								>
-									<div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-900'>
-										<Image
-											src={`/senkai-yami-4.jpg`}
-											alt={`Изображение карты ${relatedCard.name}`}
-											width={100}
-											height={150}
-											className='h-full w-full object-cover object-center group-hover:opacity-75'
-											quality={75}
-											loading='lazy'
-											sizes='(max-width: 640px) 33vw, 100px'
-										/>
-									</div>
-									<h3 className='mt-2 text-sm font-medium text-white'>
-										{relatedCard.name}
-									</h3>
-									<p className='mt-1 text-sm text-gray-300'>
-										{relatedCard.arcan}
-									</p>
-								</Link>
-							))}
-						</div>
-					</section>
+					{card.relatedCards && card.relatedCards.length > 0 && (
+						<section aria-labelledby='related-cards-heading' className='mt-12'>
+							<h2
+								id='related-cards-heading'
+								className='text-lg font-medium text-white'
+							>
+								Похожие карты
+							</h2>
+							<div className='mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+								{card.relatedCards.map((relatedCard) => (
+									<Link
+										key={relatedCard.id}
+										href={`/cards/${relatedCard.id}`}
+										className='group block'
+										prefetch={false}
+										aria-label={`Подробнее о карте ${relatedCard.name}`}
+									>
+										<div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-900'>
+											<Image
+												src={relatedCard.image || `/senkai-yami-4.jpg`}
+												alt={`Изображение карты ${relatedCard.name}`}
+												width={100}
+												height={150}
+												className='h-full w-full object-cover object-center group-hover:opacity-75'
+												quality={75}
+												loading='lazy'
+												sizes='(max-width: 640px) 33vw, 100px'
+											/>
+										</div>
+										<h3 className='mt-2 text-sm font-medium text-white'>
+											{relatedCard.name}
+										</h3>
+										<p className='mt-1 text-sm text-gray-300'>
+											{relatedCard.arcan}
+										</p>
+									</Link>
+								))}
+							</div>
+						</section>
+					)}
 				</div>
 			</div>
 		</div>
