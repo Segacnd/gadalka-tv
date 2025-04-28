@@ -24,17 +24,17 @@ export async function generateMetadata({
 	}
 
 	const firstMeaning = card.meanings[0] || {};
-	const description = firstMeaning.description
-		? `${firstMeaning.description.slice(0, 160)}...`
-		: `Узнайте значение карты Таро ${card.name} (${card.original_name}).`;
+	const description = firstMeaning.direct_description
+		? `${firstMeaning.direct_description.slice(0, 160)}...`
+		: `Узнайте значение карты Таро ${card.primary_name} (${card.original_name}).`;
 
 	return {
-		title: `${card.name} (${card.original_name}) - Значение карты Таро | ${card.arcan}`,
+		title: `${card.primary_name} (${card.original_name}) - Значение карты Таро | ${card.arcana}`,
 		description,
-		keywords: `${card.name}, ${card.original_name}, ${card.arcan}, значение карты таро, толкование, гадание, символизм карты`,
+		keywords: `${card.primary_name}, ${card.original_name}, ${card.arcana}, значение карты таро, толкование, гадание, символизм карты`,
 		openGraph: {
 			type: 'article',
-			title: `${card.name} - Значение карты Таро`,
+			title: `${card.primary_name} - Значение карты Таро`,
 			description,
 			url: `https://gadalka-tv.vercel.app/cards/${card.id}`,
 			images: [
@@ -42,13 +42,13 @@ export async function generateMetadata({
 					url: card.imageUrl,
 					width: 300,
 					height: 400,
-					alt: `Карта Таро ${card.name}`,
+					alt: `Карта Таро ${card.primary_name}`,
 				},
 			],
 		},
 		twitter: {
 			card: 'summary_large_image',
-			title: `${card.name} - Значение карты Таро`,
+			title: `${card.primary_name} - Значение карты Таро`,
 			description,
 			images: [card.imageUrl],
 		},
@@ -89,14 +89,14 @@ export default async function Page({
 	const breadcrumbs = [
 		{ label: 'Главная', href: '/' },
 		{ label: 'Карты Таро', href: '/cards' },
-		{ label: card.name, href: `/cards/${card.id}` },
+		{ label: card.primary_name, href: `/cards/${card.id}` },
 	];
 
 	const structuredData = {
 		'@context': 'https://schema.org',
 		'@type': 'Article',
-		headline: `${card.name} - Значение карты Таро`,
-		description: card.meanings[0]?.description || '',
+		headline: `${card.primary_name} - Значение карты Таро`,
+		description: card.meanings[0]?.direct_description || '',
 		image: card.imageUrl,
 		author: {
 			'@type': 'Organization',
@@ -119,8 +119,8 @@ export default async function Page({
 		},
 		about: {
 			'@type': 'Thing',
-			name: card.name,
-			description: card.meanings[0]?.description || '',
+			name: card.primary_name,
+			description: card.meanings[0]?.direct_description || '',
 			sameAs: `https://en.wikipedia.org/wiki/${card.original_name.replace(
 				/\s+/g,
 				'_'

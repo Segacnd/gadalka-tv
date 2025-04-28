@@ -2,55 +2,43 @@ import { TarotCard } from '@/types/tarot';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const CATEGORIES = {
-	general: 'Общее значение',
-	health: 'Здоровье',
-	work: 'Работа',
-	love: 'Любовь',
-	finance: 'Финансы',
-	day: 'Карта дня',
-} as const;
-
-export type Category = keyof typeof CATEGORIES;
+// const CATEGORIES = {
+// 	general: 'Общее значение',
+// 	health: 'Здоровье',
+// 	work: 'Работа',
+// 	love: 'Любовь',
+// 	finance: 'Финансы',
+// 	day: 'Карта дня',
+// 	advice: 'Совет'
+// } as const;
+//
+// export type Category = keyof typeof CATEGORIES;
 
 interface CardDetailsProps {
 	card: TarotCard;
-	activeTab: Category;
+	activeTab: string;
 }
 
-const getMeaningByCategory = (category: Category, card: TarotCard) => {
+
+const getTopicCategories = (card: TarotCard) => {
+	return card.meanings.map(item => item.topic);
+}
+
+const getMeaningByCategory = (category: string, card: TarotCard) => {
 	return card.meanings.find((meaning) => {
-		const topic = meaning.topic.toLowerCase();
-		if (category === 'general') {
-			return topic.includes('положение') || topic.includes('значение');
-		}
-		if (category === 'health') {
-			return topic.includes('здоров');
-		}
-		if (category === 'work') {
-			return topic.includes('работ') || topic.includes('карьер');
-		}
-		if (category === 'love') {
-			return topic.includes('любов') || topic.includes('отношен');
-		}
-		if (category === 'finance') {
-			return topic.includes('финанс') || topic.includes('деньг');
-		}
-		if (category === 'day') {
-			return topic.includes('день');
-		}
-		return false;
+		return meaning.topic === category;
 	});
 };
 
 export default function CardDetails({ card, activeTab }: CardDetailsProps) {
+	const categories = getTopicCategories(card)
 	return (
 		<div className='mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8'>
 			<div className='lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8'>
 				<div className='flex justify-center'>
 					<Image
 						src='/senkai-yami-4.jpg'
-						alt={`Изображение карты Таро ${card.name}`}
+						alt={`Изображение карты Таро ${card.primary_name}`}
 						width={300}
 						height={400}
 						className='h-[600px] w-auto object-cover object-center rounded-lg shadow-lg'
@@ -64,13 +52,13 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 
 				<div className='mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0'>
 					<h1 className='text-3xl font-bold tracking-tight text-white'>
-						{card.name}
+						{card.primary_name}
 					</h1>
 					<p className='mt-3 text-lg text-gray-200'>{card.original_name}</p>
-					{card.standardName && card.name !== card.standardName && (
-						<p className='mt-1 text-lg text-gray-300'>{card.standardName}</p>
+					{card.primary_name && card.primary_name !== card.primary_name && (
+						<p className='mt-1 text-lg text-gray-300'>{card.primary_name}</p>
 					)}
-					<p className='mt-1 text-sm text-gray-300'>{card.arcan}</p>
+					<p className='mt-1 text-sm text-gray-300'>{card.arcana}</p>
 
 					<div className='mt-10'>
 						<div className='border-b border-gray-800'>
@@ -78,16 +66,16 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 								className='-mb-px flex space-x-8'
 								aria-label='Категории значений карты'
 							>
-								{Object.entries(CATEGORIES).map(([key, label]) => (
+								{Object.entries(categories).map(([key, label]) => (
 									<Link
 										key={key}
-										href={`?tab=${key}`}
+										href={`?tab=${label}`}
 										scroll={false}
 										aria-current={activeTab === key ? 'page' : undefined}
 										className={`
                       whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium
                       ${
-												activeTab === key
+												activeTab === label
 													? 'border-white text-white'
 													: 'border-transparent text-gray-200 hover:border-gray-600 hover:text-white'
 											}
@@ -112,15 +100,24 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 								return (
 									<div>
 										<p className='text-sm text-gray-200 leading-relaxed'>
-											{meaning.description}
+											{meaning.general}
 										</p>
-										{meaning.reverse_description && (
+
+										<div className='mt-4'>
+											<h2 className='text-sm font-medium text-white'>
+												Прямое положение:
+											</h2>
+											<p className='mt-1 text-sm text-gray-200 leading-relaxed'>
+												{meaning.direct_description}
+											</p>
+										</div>
+										{meaning.reversed_description && (
 											<div className='mt-4'>
 												<h2 className='text-sm font-medium text-white'>
 													Перевернутое положение:
 												</h2>
 												<p className='mt-1 text-sm text-gray-200 leading-relaxed'>
-													{meaning.reverse_description}
+													{meaning.reversed_description}
 												</p>
 											</div>
 										)}
@@ -136,7 +133,7 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 								id='related-cards-heading'
 								className='text-lg font-medium text-white'
 							>
-								Похожие карты
+							Похожие карты
 							</h2>
 							<div className='mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
 								{card.relatedCards.map((relatedCard) => (
@@ -163,7 +160,7 @@ export default function CardDetails({ card, activeTab }: CardDetailsProps) {
 											{relatedCard.name}
 										</h3>
 										<p className='mt-1 text-sm text-gray-300'>
-											{relatedCard.arcan}
+											{relatedCard.arcana}
 										</p>
 									</Link>
 								))}

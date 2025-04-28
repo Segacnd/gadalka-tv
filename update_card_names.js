@@ -10,10 +10,10 @@ const suitTranslation = {
 
 // Словарь для перевода придворных карт
 const courtTranslation = {
-	Page: 'Паж',
-	Knight: 'Рыцарь',
-	Queen: 'Королева',
-	King: 'Король',
+	page: 'Паж',
+	knight: 'Рыцарь',
+	queen: 'Королева',
+	king: 'Король',
 };
 
 // Асинхронная функция для обработки файла
@@ -25,10 +25,10 @@ async function updateCardNames() {
 
 		// Проход по всем картам
 		cards.forEach((cardObj) => {
-			const card = cardObj.card;
+			const card = cardObj;
 
 			// Проверка, что это младший аркан
-			if (card.arcan && card.arcan.includes('Младший Аркан')) {
+			if (card.arcana === 'minor') {
 				const originalName = card.original_name;
 
 				// Обработка для придворных карт (Page, Knight, Queen, King)
