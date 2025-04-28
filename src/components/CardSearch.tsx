@@ -1,4 +1,4 @@
-import { TarotCard } from '@/types/tarot';
+import {Arcana, TarotCard} from '@/types/tarot';
 import Link from 'next/link';
 import Image from 'next/image';
 import SearchInput from './SearchInput';
@@ -21,19 +21,19 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 	): TarotCard[] => {
 		if (type === 'all') return cards;
 		if (type === 'major')
-			return cards.filter((card) => card.arcan.includes('Старший'));
+			return cards.filter((card) => card.arcana === Arcana.major);
 		if (type === 'minor')
-			return cards.filter((card) => card.arcan.includes('Младший'));
+			return cards.filter((card) => card.arcana === Arcana.minor);
 		if (type === 'court') {
-			// Придворные карты имеют особое значение поля arcan: "Придворный Аркан"
-			return cards.filter((card) => card.arcan.includes('Придворный'));
+			// Придворные карты имеют особое значение поля arcana: "Придворный Аркан"
+			return cards.filter((card) => !!card.court);
 		}
 		return cards;
 	};
 
 	// Сначала фильтруем по поисковому запросу
 	const searchFiltered = cards.filter((card) =>
-		card.name.toLowerCase().includes(searchTerm.toLowerCase())
+		card.primary_name.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
 	// Затем фильтруем по типу аркана
@@ -146,7 +146,7 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 								href={`/cards/${card.id}`}
 								className='group block'
 								prefetch={false}
-								aria-label={`Подробнее о карте ${card.name}`}
+								aria-label={`Подробнее о карте ${card.primary_name}`}
 							>
 								<div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-900'>
 									<Image
@@ -160,14 +160,14 @@ export default function CardSearch({ cards, searchParams }: CardSearchProps) {
 									/>
 								</div>
 								<h2 className='mt-2 text-sm text-white'>
-									{card.name}
-									{card.standardName && card.name !== card.standardName && (
+									{card.primary_name}
+									{card.primary_name && card.primary_name !== card.primary_name && (
 										<span className='block text-xs text-gray-400 mt-1'>
-											{card.standardName}
+											{card.primary_name}
 										</span>
 									)}
 								</h2>
-								<p className='mt-1 text-sm text-gray-400'>{card.arcan}</p>
+								<p className='mt-1 text-sm text-gray-400'>{card.arcana}</p>
 							</Link>
 						))}
 					</div>

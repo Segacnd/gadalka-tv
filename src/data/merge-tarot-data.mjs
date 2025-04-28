@@ -29,28 +29,22 @@ function findSymbolInfo(originalName) {
 
 // Добавление символики к данным о картах
 const enrichedCards = cards.map((cardData) => {
-	const originalName = cardData.card.original_name;
+	const originalName = cardData.original_name;
 	const symbolInfo = findSymbolInfo(originalName);
 
 	if (symbolInfo) {
 		return {
 			...cardData,
-			card: {
-				...cardData.card,
-				symbolism: symbolInfo.symbolism,
-				correspondences: symbolInfo.correspondences,
-				photo: '',
-			},
+			symbolism: symbolInfo.symbolism,
+			correspondences: symbolInfo.correspondences,
+			photo: '',
 		};
 	}
 
 	// Если для карты нет соответствий в символике, все равно добавляем photo
 	return {
 		...cardData,
-		card: {
-			...cardData.card,
-			photo: '',
-		},
+		photo: '',
 	};
 });
 

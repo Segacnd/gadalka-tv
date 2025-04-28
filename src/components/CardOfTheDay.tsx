@@ -8,7 +8,7 @@ export default function CardOfTheDay() {
 
 	// Берем первое значение из массива meanings, если оно есть
 	const meaning = card.meanings[0];
-	const description = meaning?.description || '';
+	const description = meaning?.direct_description || '';
 
 	// Ограничиваем длину описания
 	const shortDescription =
@@ -30,7 +30,7 @@ export default function CardOfTheDay() {
 							<div className='relative'>
 								<Image
 									src='/senkai-yami-4.jpg'
-									alt={`Карта Таро ${card.name}`}
+									alt={`Карта Таро ${card.primary_name}`}
 									width={200}
 									height={320}
 									className='rounded-lg object-cover'
@@ -42,10 +42,10 @@ export default function CardOfTheDay() {
 
 					<div className='w-full md:w-2/3'>
 						<h3 className='text-xl font-semibold text-white mb-2'>
-							{card.name}
+							{card.primary_name}
 						</h3>
 						<p className='text-gray-300 text-sm mb-4'>
-							{card.original_name} • {card.arcan}
+							{card.original_name} • {card.arcana}
 						</p>
 
 						<p className='text-gray-200 mb-6'>{shortDescription}</p>

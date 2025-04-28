@@ -1,4 +1,4 @@
-import { TarotCard } from '@/types/tarot';
+import {Arcana, Suit, TarotCard} from '@/types/tarot';
 import cardsData from './cards-complete.json';
 import { cache } from 'react';
 
@@ -14,26 +14,22 @@ export const getTarotCards = cache((): TarotCard[] => {
 		let cardGroup = '';
 
 		// Группируем карты по их типу и характеристикам
-		if (item.card?.arcan === 'Старший Аркан') {
-			cardGroup = 'major';
-		} else if (item.card?.arcan === 'Младший Аркан') {
+		if (item.arcana === Arcana.major) {
+			cardGroup = Arcana.major;
+		} else if (item.arcana === Arcana.minor) {
 			// Группировка по мастям для младших арканов
-			const originalName = item.card?.original_name || '';
-			if (originalName.includes('Cups') || originalName.includes('Кубков')) {
+			if (item.suit === Suit.cup) {
 				cardGroup = 'cups';
 			} else if (
-				originalName.includes('Wands') ||
-				originalName.includes('Жезлов')
+				item.suit === Suit.wand
 			) {
 				cardGroup = 'wands';
 			} else if (
-				originalName.includes('Swords') ||
-				originalName.includes('Мечей')
+				item.suit === Suit.sward
 			) {
 				cardGroup = 'swords';
 			} else if (
-				originalName.includes('Pentacles') ||
-				originalName.includes('Пентаклей')
+				item.suit === Suit.pentacle
 			) {
 				cardGroup = 'pentacles';
 			}
@@ -41,20 +37,21 @@ export const getTarotCards = cache((): TarotCard[] => {
 
 		return {
 			id: (index + 1).toString(),
-			number: item.card?.number || '',
-			name: item.card?.name || '',
-			original_name: item.card?.original_name || '',
-			arcan: item.card?.arcan || '',
+			number: item.number || '',
+			primary_name: item.primary_name || '',
+			original_name: item.original_name || '',
+			arcana: item.arcana || '',
+			court: item.court || '',
+			suit: item.suit || '',
 			meanings: item.meanings || [],
-			imageUrl: `/images/cards/${(item.card?.original_name || '')
+			imageUrl: `/images/cards/${(item.original_name || '')
 				.toLowerCase()
 				.replace(/\s+/g, '-')}.webp`,
-			photo: item.card?.photo || '',
+			photo: item.photo || '',
 			relatedCards: [], // Будет заполнено позднее
-			symbolism: item.card?.symbolism,
-			correspondences: item.card?.correspondences,
+			symbolism: item.symbolism,
+			correspondences: item.correspondences,
 			cardGroup, // Добавляем группу для последующего связывания
-			standardName: item.card?.standard_name || '',
 		};
 	});
 
@@ -74,9 +71,9 @@ export const getTarotCards = cache((): TarotCard[] => {
 			// Преобразуем в нужный формат
 			.map((relatedCard) => ({
 				id: relatedCard.id,
-				name: relatedCard.name,
+				primary_name: relatedCard.primary_name,
 				image: relatedCard.imageUrl,
-				arcan: relatedCard.arcan,
+				arcana: relatedCard.arcana,
 			}));
 
 		return {
